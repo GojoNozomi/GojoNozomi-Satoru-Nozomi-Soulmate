@@ -76,6 +76,15 @@
         +     '<button id="import-chat-btn"></button>'
         +   '</div>'
 
+                +   '<div class="dm-section-label"><i class="fas fa-bell"></i> 通知</div>'
+        +   '<div class="dm-row-card">'
+        +     '<div class="dm-row-item">'
+        +       '<div class="dm-row-icon amber"><i class="fas fa-bell"></i></div>'
+        +       '<div class="dm-row-info"><div class="dm-row-title">后台消息推送</div><div class="dm-row-desc" id="notif-status-text">收到新消息时弹出提醒</div></div>'
+        +       '<label class="dm-toggle-pill"><input type="checkbox" id="notif-permission-toggle" onchange="handleNotifToggle(this)"><span class="dm-toggle-slider"></span></label>'
+        +     '</div>'
+        +   '</div>'
+
         +   '<div class="dm-section-label danger-label"><i class="fas fa-triangle-exclamation"></i> 危险操作</div>'
         +   '<div class="dm-danger-cards dm-danger-cards-row">'
         +     '<button class="dm-danger-card dm-danger-card-orange dm-danger-card-half" id="clear-chat-only">'
