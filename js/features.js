@@ -183,7 +183,8 @@
 
 (function() {
     var KEY = 'keepaliveAudioEnabled';
-    var SRC = 'https://fastly.jsdelivr.net/gh/GojoNozomi/GojoNozomi-audio@main/1-hour-and-20-minutes-of-silence.mp3';
+    // 纯零振幅无损静音 WAV，彻底消除底噪和电流声
+    var SRC = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
     var _audio = null;
     var _unlockBound = false;
 
@@ -195,8 +196,20 @@
         _audio.loop   = true;
         _audio.volume = 0.01;
         _audio.preload = 'auto';
+        
         _audio.addEventListener('play',  function(){ _setUI(true);  });
-        _audio.addEventListener('pause', function(){ _setUI(false); });
+        
+        // 被音效或语音顶掉导致暂停时，500ms 后自动抢回播放权限
+        _audio.addEventListener('pause', function(){ 
+            _setUI(false);
+            if (_get()) {
+                setTimeout(function() {
+                    if (_audio && _audio.paused && _get()) {
+                        _audio.play().catch(function(){});
+                    }
+                }, 500);
+            }
+        });
         return _audio;
     }
 
@@ -709,17 +722,20 @@ function showVoiceTab() {
             };
             if (voice.audioUrl) {
                 try {
-                    const tmpAudio = new Audio(voice.audioUrl);
+                    const tmpAudio = new Audio();
+                    tmpAudio.preload = 'metadata';
+                    tmpAudio.src = voice.audioUrl;
+                    const cleanup = () => {
+                        tmpAudio.src = '';
+                        tmpAudio.load();
+                    };
                     tmpAudio.addEventListener('loadedmetadata', () => {
                         voiceMsg.voiceDuration = Math.round(tmpAudio.duration) || 0;
+                        cleanup();
                         doSend();
-                    });
-                    tmpAudio.addEventListener('canplaythrough', () => {
-                        voiceMsg.voiceDuration = Math.round(tmpAudio.duration) || 0;
-                        doSend();
-                    });
-                    tmpAudio.addEventListener('error', () => { doSend(); });
-                    setTimeout(doSend, 2000);
+                    }, { once: true });
+                    tmpAudio.addEventListener('error', () => { cleanup(); doSend(); }, { once: true });
+                    setTimeout(() => { cleanup(); doSend(); }, 1500);
                 } catch(e) {
                     doSend();
                 }
@@ -1536,11 +1552,8 @@ window.switchToAnnouncementPanel = function() {
     var subTabs = document.getElementById('cr-sub-tabs');
     var addBtn = document.getElementById('add-custom-reply');
     var titleEl = document.getElementById('cr-modal-title');
-    // 隐藏并清空列表区域，彻底清除 emoji/sticker/字卡等残留内容
     if (listArea) { listArea.style.display = 'none'; listArea.innerHTML = ''; listArea.className = 'content-list-area'; }
-    // 隐藏并清空批量操作工具栏，防止工具栏内容残留
     if (batchToolbar) { batchToolbar.style.display = 'none'; batchToolbar.innerHTML = ''; }
-    // 隐藏并清空 sub tabs，防止 tab 按钮残留
     if (subTabs) { subTabs.style.display = 'none'; subTabs.innerHTML = ''; }
     if (annPanel) { annPanel.style.display = 'block'; annPanel.scrollTop = 0; }
     if (toolbar) toolbar.style.display = 'none';
