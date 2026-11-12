@@ -183,7 +183,7 @@
 
 (function() {
     var KEY = 'keepaliveAudioEnabled';
-    var SRC = 'https://raw.githubusercontent.com/anars/blank-audio/master/10-minutes-of-silence.mp3';
+    var SRC = 'https://fastly.jsdelivr.net/gh/GojoNozomi/GojoNozomi-audio@main/30%E5%88%86%E9%92%9F%E7%BD%91%E6%98%93%E4%BA%91%E7%A9%BA%E7%99%BD%E9%9F%B3.mp3';
     var _audio = null;
     var _unlockBound = false;
 
