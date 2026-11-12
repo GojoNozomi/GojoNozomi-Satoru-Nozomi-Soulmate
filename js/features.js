@@ -183,7 +183,7 @@
 
 (function() {
     var KEY = 'keepaliveAudioEnabled';
-    var SRC = 'data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA//////////////////////////////////////////////////////////////////8AAAB5TEFNRTMuOTlyBACkAAAAAAAAAAAUAUCAcBwAAADAAABw7M+yWwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    var SRC = 'https://fastly.jsdelivr.net/gh/GojoNozomi/GojoNozomi-audio@main/1-hour-and-20-minutes-of-silence.mp3';
     var _audio = null;
     var _unlockBound = false;
 
