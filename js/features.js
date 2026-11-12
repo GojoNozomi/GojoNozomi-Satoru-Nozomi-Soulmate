@@ -183,8 +183,7 @@
 
 (function() {
     var KEY = 'keepaliveAudioEnabled';
-    // 纯零振幅无损静音 WAV，彻底消除底噪和电流声
-    var SRC = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+    var SRC = 'https://raw.githubusercontent.com/anars/blank-audio/master/10-minutes-of-silence.mp3';
     var _audio = null;
     var _unlockBound = false;
 
